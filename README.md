@@ -1,10 +1,10 @@
-# Título del trabajo
+# Hundir la Flota
 
-Descripción breve del proyecto a realizar (2-3 frases).
+Hacer un código en C que permita jugar a hundir la flota contra la máquina.
 
 ## Integrantes del equipo
 
-Nombres, apellidos, y usuario GitHub de los integrantes del equipo.
+Enrique Martínez @EnriqueMB2001
 
 ## Objetivos del trabajo
 
