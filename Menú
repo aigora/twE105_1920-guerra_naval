@@ -1,0 +1,45 @@
+#include<stdio.h>
+void main ()
+{ 
+
+    char cadena_de_caracteres[10];
+    int choice;
+    
+	printf("Bienbenidos a 'Guerra Naval 2.0' loading \n");
+  
+    printf("elije tu nombre\n");
+  
+ 
+    scanf("%s", cadena_de_caracteres);
+    
+	 
+	 printf("Elige el modo de juego \n");
+	 
+	 
+	 printf("Opcion1: jugar contra la computadora\n");// el profesor deberá elegir preferentemente opcion 1, pulsando
+	 
+	 
+	 printf("Opcion2: jugar contra a una persona\n");// si se dispone de dos personas
+	 
+	 
+	 scanf("%i",&choice);
+	 if (choice=1){
+	 	printf("Ok, muy bien\n");
+		printf("So, let's go!\n");
+		
+
+	 	
+	 }
+	 
+	 else (choice=2){
+	 printf("Ok, muy bien\n");
+	 	printf("So, let's go!\n");
+	 	
+	 }
+	 
+	
+	
+
+  
+  
+}
