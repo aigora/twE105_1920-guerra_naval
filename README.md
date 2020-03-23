@@ -4,7 +4,7 @@ Hacer un código en C que permita jugar a hundir la flota contra la máquina.
 
 ## Integrantes del equipo
 
-Enrique Martínez @EnriqueMB2001.
+Enrique Martínez @EnriqueMB2001./n
 Jhon Jairo Flores Copa @jhon7t
 
 ## Objetivos del trabajo
