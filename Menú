@@ -5,7 +5,7 @@ void main ()
     char cadena_de_caracteres[10];
     int choice;
     
-	printf("Bienbenidos a 'Guerra Naval 2.0' loading \n");
+	printf("Bienvenidos a 'Guerra Naval 2.0' loading \n");
   
     printf("elije tu nombre\n");
   
