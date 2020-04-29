@@ -1,6 +1,8 @@
 //haya una función que te ponga que te situe donde quieras poner tus barcos
 #include <stdio.h>
 void posicion(int n);
+void tablero()
+void tmodificado()
 int main()
 {   posicion(5);
     printf("\n");
@@ -9,6 +11,7 @@ int main()
     posicion(3);
     printf("\n");
     posicion(1);
+    
     
     return 0;
     
@@ -50,4 +53,23 @@ void posicion(int n){
 		  
 		  
     
+}
+void tablero(){
+int i,j;
+for(i=0;i<=10;i++){
+for(j=;j<=10;j++){
+   printf("x");
+   
+   }
+   printf("\n");
+}
+}
+
+void tposiciones(){
+//reemplazamiento de x por & otro simbolo
+//reemplazamiento por 
+
+}
+void toques(){
+ //ver cuando ha sido tocado un cambio de simbolos o en su defecto(que no haya atinado) por otro signo diferente
 }
