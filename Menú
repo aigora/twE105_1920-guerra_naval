@@ -4,10 +4,12 @@ void main ()
 
     char cadena_de_caracteres[10];
     int choice;
+    int E;
+    int fila;
     
 	printf("Bienvenidos a 'Guerra Naval 2.0' loading \n");
   
-    printf("elije tu nombre\n");
+    printf("Escribe tu nombre\n");
   
  
     scanf("%s", cadena_de_caracteres);
@@ -16,7 +18,7 @@ void main ()
 	 printf("Elige el modo de juego \n");
 	 
 	 
-	 printf("Opcion1: jugar contra la computadora\n");// el profesor deberá elegir preferentemente opcion 1, pulsando
+	 printf("Opcion1: jugar contra la computadora\n");// el profesor deberá elegir preferentemente opcion 1, pulsando 1
 	 
 	 
 	 printf("Opcion2: jugar contra a una persona\n");// si se dispone de dos personas
@@ -24,18 +26,48 @@ void main ()
 	 
 	 scanf("%i",&choice);
 	 if (choice=1){
-	 	printf("Ok, muy bien\n");
-		printf("So, let's go!\n");
+	 	printf("**********************Ok, muy bien!**********************\n");
+	
+		printf("Establece la disposicion de tus tropas \n");
+		printf("Como quiere colocar el portaaviones:*****\n");
+		printf("Horizontal(H),Vertical(V):");
+		scanf("%c",&E);
+		  if(E='V' || E='v'){
+		  printf("En que filas quieres colocar:");
+		  for(i=1;i<=5;i++)
+		  
+		  printf("introduce la  fila %i:",i++);
+		  scanf("%i",&fila);
+		  
+		  
+		  
+		  }
+		  
+		  else if(E='h'||E='H')
+		  {
+		  printf("En que columnas quieres colocar");
+		  }
+		printf(  );
+		
+		
+		
+		printf("Establece tus puntos de ataque"\n);// cada jugador :cuantos puede dar
+		
 		
 
 	 	
 	 }
 	 
-	 else (choice=2){
+	 else if (choice=2){
 	 printf("Ok, muy bien\n");
-	 	printf("So, let's go!\n");
+	 	printf("Asi que alla vamos!\n");
 	 	
 	 }
+	 else {
+	 printf("Error. Solo introduzca uno o dos.\n");// Si escribe mas de dos, hay que estar preparados
+	 
+	 }
+	 
 	 
 	
 	
