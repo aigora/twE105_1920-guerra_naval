@@ -1,1 +1,76 @@
+//haya una función que te situe donde quieras poner tus barcos
+#include <stdio.h>
+void posicion(int n);
+void tablero();
+void tmodificado();
+int main()
+{   posicion(5);
+    printf("\n");
+    posicion(4);
+    printf("\n");
+    posicion(3);
+    printf("\n");
+    posicion(1);
+    
+    
+    return 0;
+    
+}
+void posicion(int n){
+    int i;
+    char E;
+    printf("horizontal o vertical:");
+    scanf("%c",&E);
+    
+
+    
+	if(E=='v'||E=='V'){
+		    int fila;
+		    int columna;
+		    printf("En que columna quieres colocarlo:");
+            scanf("%i",&columna);
+		   printf("En que filas quieres colocar:\n");
+		  for(i=1;i<=n;i++){
+		  
+		  printf("introduce la  fila %i:",i);
+		  scanf("%i",&fila);
+		  }
+		    
+		}
+		else if(E=='h'||E=='H'){
+		    int fila;
+		    int columna;
+		    printf("En que fila  quieres colocarlo:");
+            scanf("%i",&fila);
+		    printf("En que columnas quieres colocarlo:\n");
+		    for(i=1;i<=n;i++){
+		  
+		   printf("introduce la  columna %i:",i);
+		   scanf("%i",&columna);
+		  }
+		}
+		    
+		  
+		  
+    
+}
+void tablero(){
+int i,j;
+for(i=0;i<=10;i++){
+for(j=;j<=10;j++){
+   printf("x");
+   
+   }
+   printf("\n");
+}
+}
+
+void tposiciones(){
+//reemplazamiento de x por & otro simbolo
+//reemplazamiento por 
+
+}
+void toques(){
+ //ver cuando ha sido tocado un cambio de simbolos o en su defecto(que no haya atinado) por otro signo diferente
+}
 
