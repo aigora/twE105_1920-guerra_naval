@@ -1,4 +1,4 @@
-//haya una función que te ponga que te situe donde quieras poner tus barcos
+//haya una función que te situe donde quieras poner tus barcos
 #include <stdio.h>
 void posicion(int n);
 void tablero()
