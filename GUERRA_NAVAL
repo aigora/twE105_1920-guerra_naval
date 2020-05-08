@@ -1,16 +1,20 @@
 //haya una función que te situe donde quieras poner tus barcos
 #include <stdio.h>
+void toques();
 void posicion(int n);
 void tablero();
 void tmodificado();
 int main()
 {   posicion(5);
     printf("\n");
+  //  fflush(stdin); o ESPACIO! POR EL BUFFER
     posicion(4);
     printf("\n");
     posicion(3);
     printf("\n");
     posicion(1);
+    //AHORA LAS ATAQUES 
+    
     
     
     return 0;
@@ -20,14 +24,14 @@ void posicion(int n){
     int i;
     char E;
     printf("horizontal o vertical:");
-    scanf("%c",&E);
+    scanf(" %c",&E);// espacio por lo del buffer
     
 
     
 	if(E=='v'||E=='V'){
 		    int fila;
 		    int columna;
-		    printf("En que columna quieres colocarlo:");
+		    printf("En que columna quieres colocarlo:");//llevar esas coordenadas
             scanf("%i",&columna);
 		   printf("En que filas quieres colocar:\n");
 		  for(i=1;i<=n;i++){
@@ -53,21 +57,22 @@ void posicion(int n){
 		  
 		  
     
-}
+}			
 void tablero(){
 int i,j;
 for(i=0;i<=10;i++){
-for(j=;j<=10;j++){
-   printf("x");
+for(j=0;j<=10;j++){
+   printf("+");
    
    }
    printf("\n");
-}
+  }
 }
 
 void tposiciones(){
-//reemplazamiento de x por & otro simbolo
-//reemplazamiento por 
+	//MOSTRAR
+//reemplazamiento de + por # otro simbolo
+
 
 }
 void toques(){
