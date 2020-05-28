@@ -1,13 +1,18 @@
-#define AGUA '^'
-#define TOCADO '*'
-#define OCULTA 'O'
-#define PORTAVIONES 5
-#define ACORAZADO 4
-#define SUBMARINO 3
-#define CRUCERO 3
-#define DESTRUCTOR 2
-/* Funciones */
-void IniciarTablero(char[10][10],char);
-void IniciarTableroJ2();
-void DibujarTablero(char[10][10]);
+#define NF 10
+#define NC 10
+
+
+int transformanumero(char num);
+int transformaletra(char letra);
+void iniciartablero(int m[NF][NC]);
+int gameover(int m[NF][NC], int cont);
+void posiciona(int m[NF][NC]);
+void imprimetablero(int m[NF][NC]);
+void turnoJugador(int m[NF][NC], int m2[NF][NC]);
+
+void portaaviones(int m[NF][NC]);
+void acorazado(int m[NF][NC]);
+void submarino(int m[NF][NC]);
+void crucero(int m[NF][NC]);
+void destructor(int m[NF][NC]);
 
