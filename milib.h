@@ -10,10 +10,4 @@
 void IniciarTablero(char[10][10],char);
 void IniciarTableroJ2();
 void DibujarTablero(char[10][10]);
-void PedirCasilla(int);
-int VerificarCasilla(char[10][10],Casilla,int,char);
-void Almacenar(char[10][10],int,Casilla,char);
-void TurnoJ1();
-void TurnoJ2();
-char AtacarCasilla(char[10][10],Casilla);
-void GenerarLista();
+
