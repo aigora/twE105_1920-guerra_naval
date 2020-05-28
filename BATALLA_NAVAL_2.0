@@ -1,81 +1,70 @@
-//haya una función que te situe donde quieras poner tus barcos
 #include <stdio.h>
-void toques();
-void posicion(int n);
-void tablero();
-void tmodificado();
+#include <stdlib.h>
+#include <ctype.h>//más sencillo
+#include <conio.h>
+#include <string.h>
+#include"lalibreria.h"
+
+
+
+
 int main()
-{   posicion(5);
-    printf("\n");
-  //  fflush(stdin); o ESPACIO! POR EL BUFFER
-    posicion(4);
-    printf("\n");
-    posicion(3);
-    printf("\n");
-    posicion(1);
-    //AHORA LAS ATAQUES 
-    
-    
-    
-    return 0;
-    
-}
-void posicion(int n){
-    int i;
-    char E;
-    printf("horizontal o vertical:");
-    scanf(" %c",&E);// espacio por lo del buffer
-    
+{
+   int findeljuego = 0, cont1 = 0, cont2 = 0;
 
-    
-	if(E=='v'||E=='V'){
-		    int fila;
-		    int columna;
-		    printf("En que columna quieres colocarlo:");//llevar esas coordenadas
-            scanf("%i",&columna);
-		   printf("En que filas quieres colocar:\n");
-		  for(i=1;i<=n;i++){
-		  
-		  printf("introduce la  fila %i:",i);
-		  scanf("%i",&fila);
-		  }
-		    
-		}
-		else if(E=='h'||E=='H'){
-		    int fila;
-		    int columna;
-		    printf("En que fila  quieres colocarlo:");
-            scanf("%i",&fila);
-		    printf("En que columnas quieres colocarlo:\n");
-		    for(i=1;i<=n;i++){
-		  
-		   printf("introduce la  columna %i:",i);
-		   scanf("%i",&columna);
-		  }
-		}
-		    
-		  
-		  
-    
-}			
-void tablero(){
-int i,j;
-for(i=0;i<=10;i++){
-for(j=0;j<=10;j++){
-   printf("+");
-   
+   int jugador1[NF][NC], jugador2 [NF][NC];
+
+   iniciartablero(jugador1);
+   iniciartablero(jugador2);
+
+   printf("Jugador 1, coloca tus barcos:\n");
+   posiciona(jugador1);
+
+
+   printf("Jugador 2, coloca tus barcos:\n");
+   posiciona(jugador2);
+
+//Se leen los turnos de los jugadores y se indica si ha ganado o  ha perdido para ambos jugadores
+
+//Despues de eliminar las posiciones del oponwete se saldrá del juego 
+
+
+
+   while(findeljuego == 0){
+
+       if(gameover(jugador1, cont1) == 0){
+
+           system("cls");
+           printf("Turno, Jugador 1:\n");
+           imprimetablero(jugador1);
+           system("COLOR 02");
+           turnoJugador(jugador2, jugador1);
+
+           if(gameover(jugador2, cont2)){
+               findeljuego = 1;
+               system("cls");
+               imprimetablero(jugador1);
+               printf("\n");
+               printf("\nHa ganado Jugador 1\n");
+           }
+       }
+
+       if(gameover(jugador2, cont2) == 0){
+           system("cls");
+           printf("Turno, Jugador 2:\n");
+           imprimetablero(jugador2);
+           turnoJugador(jugador1, jugador2);
+
+           if(gameover(jugador1, cont1)){
+               findeljuego = 1;
+               system("cls");
+               imprimetablero(jugador2);
+               system("COLOR 02");              
+               printf("\n");
+               printf("\nHa ganado Jugador 2\n");
+           }
+       }
    }
-   printf("\n");
-  }
-}
-
-void tposiciones(){
-	//MOSTRAR
-//reemplazamiento de + por # otro simbolo
-
-
-}
-void toques(){
- //ver cuando ha sido tocado un cambio de simbolos o en su defecto(que no haya atinado) por otro signo diferente
+   return 0;
 }
 
