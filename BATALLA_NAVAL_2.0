@@ -3,7 +3,7 @@
 #include <ctype.h>//más sencillo
 #include <conio.h>
 #include <string.h>
-#include"lalibreria.h"
+#include "milib.h"
 
 
 
@@ -12,7 +12,7 @@ int main()
 {
    int findeljuego = 0, cont1 = 0, cont2 = 0;
 
-   int jugador1[NF][NC], jugador2 [NF][NC];
+   int jugador1[10][10], jugador2 [10][10];
 
    iniciartablero(jugador1);
    iniciartablero(jugador2);
