@@ -46,10 +46,10 @@ int transformanumero(char num)
 }
 
 /* Esta funcion va iniciar el tablero desde la posicion 0 */
-void iniciartablero(int m[NF][NC]){
+void iniciartablero(int m[10][10]){
 
-for(int i = 0; i < NF; i++){
-       for (int j = 0; j < NC; j++){
+for(int i = 0; i < 10; i++){
+       for (int j = 0; j < 10; j++){
            m[i][j]= 0;
 }
 }
@@ -57,12 +57,12 @@ for(int i = 0; i < NF; i++){
 
 /* Esta funcion va a detectar el fin del juego */
 
-int gameover(int m[NF][NC], int cont2){
+int gameover(int m[10][10], int cont2){
 
    int res = 0, cont1 = 0;
 
-   for(int i = 0; i < NF; i++){
-       for (int j = 0; j < NC; j++){
+   for(int i = 0; i < 10; i++){
+       for (int j = 0; j < 10; j++){
        if(m[i][j] == 2){
            cont1 += 1;
        }
@@ -80,7 +80,7 @@ if(cont1 == cont2){
 return (res);
 }
 /* Esta funcion va a realizar la colocacion de cada barco en las posiciones pedidas */
-void posiciona(int m[NF][NC]){
+void posiciona(int m[10][10]){
 
    int fila, columna2;
    char columna;
@@ -98,9 +98,9 @@ void posiciona(int m[NF][NC]){
 
 /*Esta funcion va a mostrar el tablero de ambos jugadores */
 
-void imprimetablero(int m[NF][NC]){
+void imprimetablero(int m[10][10]){
 
-   for(int i = 0; i <= NF; i++){
+   for(int i = 0; i <= 10; i++){
        if(i == 0){
            printf("  ");
        } else{
@@ -110,10 +110,10 @@ void imprimetablero(int m[NF][NC]){
 
    printf("\n");
 
-   for(int i=0; i<NF; i++){
+   for(int i=0; i<10; i++){
        printf("%d ", i);
 
-       for (int j=0; j<NC; j++){
+       for (int j=0; j<10; j++){
 
            if(m[i][j] == 1){
                printf("# ");
@@ -128,7 +128,7 @@ void imprimetablero(int m[NF][NC]){
 }
 
 /*Esta funcion va a hundir la flota del oponete a través de turnos */
-void turnoJugador(int m[NF][NC], int m2[NF][NC]){
+void turnoJugador(int m[10][10], int m2[10][10]){
    char letra, fila;
    int filas, columna;
 
@@ -152,7 +152,7 @@ do{
            fflush(stdin);
            letra  = toupper(letra);
            columna = transformaletra(letra);
-           }while(columna >= NC || columna < 0);
+           }while(columna >= 10 || columna < 0);
        }while(isdigit(letra));
 
        columna = transformaletra(letra);
@@ -184,7 +184,7 @@ do{
 
 /******************************Barcos y soldado*****************************************************/
 
-void portaaviones(int m[NF][NC]){
+void portaaviones(int m[10][10]){
 
    char pos, letra, fila;
    int filas, columna;
@@ -232,7 +232,7 @@ do{
 }
 
    }while(isdigit(letra));
-}while ((columna >= NC) || (columna < 0));
+}while ((columna >= 10) || (columna < 0));
 
 
        m[filas][columna] = 1;
@@ -259,7 +259,7 @@ do{
            columna = transformaletra(letra);
            
 }while(isdigit(letra));
-}while ((columna >= NC) || (columna < 0));
+}while ((columna >= 10) || (columna < 0));
 
        system("cls");
 
@@ -293,7 +293,7 @@ do{
    }
 }
 
-void acorazado(int m[NF][NC]){
+void acorazado(int m[10][10]){
 
    char pos, letra, fila;
    int filas, columna;
@@ -339,7 +339,7 @@ do{
             i--;
 }
 
-       }while((isdigit(letra) || columna >= NC || columna < 0));
+       }while((isdigit(letra) || columna >= 10 || columna < 0));
 
 
        m[filas][columna] = 1;
@@ -366,7 +366,7 @@ do{
            columna = transformaletra(letra);
            
 }while(isdigit(letra));
-}while ((columna >= NC) || (columna < 0));
+}while ((columna >= 10) || (columna < 0));
 
        system("cls");
 
@@ -402,7 +402,7 @@ do{
 
 }
 
-void submarino(int m[NF][NC]){
+void submarino(int m[10][10]){
 
    char pos, letra, fila;
    int filas, columna;
@@ -448,7 +448,7 @@ do{
             i--;
 }
 
-       }while(isdigit(letra) || columna >= NC || columna < 0);
+       }while(isdigit(letra) || columna >= 10 || columna < 0);
 
 
        m[filas][columna] = 1;
@@ -475,7 +475,7 @@ do{
            columna = transformaletra(letra);
            
 }while(isdigit(letra));
-}while ((columna >= NC) || (columna < 0));
+}while ((columna >= 10) || (columna < 0));
 
        system("cls");
 
@@ -512,7 +512,7 @@ do{
    }
 }
 
-void crucero(int m[NF][NC]){
+void crucero(int m[10][10]){
 
    char pos, letra, fila;
    int filas, columna;
@@ -558,7 +558,7 @@ do{
             i--;
 }
 
-       }while(isdigit(letra) || columna >= NC || columna < 0);
+       }while(isdigit(letra) || columna >= 10 || columna < 0);
 
 
        m[filas][columna] = 1;
@@ -585,7 +585,7 @@ do{
            columna = transformaletra(letra);
            
 }while(isdigit(letra));
-}while ((columna >= NC) || (columna < 0));
+}while ((columna >= 10) || (columna < 0));
 
        system("cls");
 
@@ -620,7 +620,7 @@ do{
    }
 }
 
-void destructor(int m[NF][NC]){
+void destructor(int m[10][10]){
 
    char pos, letra, fila;
    int filas, columna, flag;
@@ -642,7 +642,7 @@ printf("Como quieres colocar donde quieres colocar al destructor*\n");
            columna = transformaletra(letra);
            
 }while(isdigit(letra));
-}while ((columna >= NC) || (columna < 0));
+}while ((columna >= 10) || (columna < 0));
 
        do{
 do{
@@ -670,4 +670,3 @@ do{
    getch();
    system("cls");
 }
-
