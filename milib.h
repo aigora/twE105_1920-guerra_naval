@@ -258,8 +258,8 @@ do{
            
            columna = transformaletra(letra);
            
-}while(isdigit(letra));
-}while ((columna >= 10) || (columna < 0));
+		}while(isdigit(letra));
+	   }while ((columna >= 10) || (columna < 0));
 
        system("cls");
        printf("Jugador 1, coloca tus barcos:\n");
@@ -270,15 +270,15 @@ do{
        
            do{
             do{
-       scanf("%c", &fila);
-       fflush(stdin);        
-       filas = transformanumero(fila);
-       }while(!isdigit(fila));
+       			scanf("%c", &fila);
+       			fflush(stdin);        
+       			filas = transformanumero(fila);
+       		}while(!isdigit(fila));
            
-           if(m[filas][columna] == 1){
-            printf("\nYa has colocado el barco en la posicion [%d][%c]\n", filas, letra);
-            i--;
-}
+           	if(m[filas][columna] == 1){
+            	printf("\nYa has colocado el barco en la posicion [%d][%c]\n", filas, letra);
+            	i--;
+				}	
 
            }while((filas < 0 && filas > 10) || !isdigit(fila));
 
@@ -286,14 +286,15 @@ do{
            m[filas+i][columna] = 1;
        	}
 		system("cls");
-		printf("Jugador 1, coloca tus barcos:\n");
 
+	   printf("Jugador 1, coloca tus barcos:\n");
        imprimetablero(m);
        getch();
     
 
        break;
    }
+   
 }
 
 void acorazado(int m[10][10]){
@@ -323,13 +324,12 @@ do{
        }while(filas < 0 || filas > 10);
 }while(!isdigit(fila));
 
-      system("cls");
+      
 
-       printf("Elije 4 columnas para ubicarlo: \n");
-       for(int i = 0; i < 4; i++){
+       printf("Elije la primera columna para ubicarlo: \n");
+       
        
        do{
-           printf("Introduce una columna: ");
            fflush(stdin);
            scanf("%c", &letra);
            fflush(stdin);
@@ -337,19 +337,22 @@ do{
            
            columna = transformaletra(letra);
            
-           if(m[filas][columna] == 1){
+          			if(m[filas][columna] == 1 || m[filas][columna+1]==1 || m[filas][columna+2]==1 || m[filas][columna+3]==1){
             printf("\nYa has colocado el barco en la posicion [%d][%c]\n", filas, letra);
-            i--;
-}
+			}
+            
 
-       }while((isdigit(letra) || columna >= 10 || columna < 0));
-
-
-       m[filas][columna] = 1;
-       }
+       }while(isdigit(letra) || (columna >= 10) || (columna < 0) || m[filas][columna]==1 || m[filas][columna+1]==1 || m[filas][columna+2]==1 || m[filas][columna+3]==1);
 
 
-       imprimetablero(m);
+
+       
+       for(i = 0; i < 4; i++){
+		 m[filas][columna+i] = 1;
+		 }
+		system("cls");
+		printf("Jugador 1, coloca tus barcos:\n");
+       	imprimetablero(m);
        getch();
        system("cls");
 
@@ -371,32 +374,35 @@ do{
 }while(isdigit(letra));
 }while ((columna >= 10) || (columna < 0));
 
-       system("cls");
 
-       printf("Elije 4 filas para ubicarlo: \n");
-       for(int i = 0; i < 4; i++){
+       printf("Elije la primera fila para ubicarlo: \n");
+    
        
            do{
            
             do{
-       printf("Introduce una fila %d: ", i+1);
        fflush(stdin);
        scanf("%c", &fila);
        fflush(stdin);        
        filas = transformanumero(fila);
        }while(!isdigit(fila));
            
-           if(m[filas][columna] == 1){
+          	if(m[filas][columna] == 1 || m[filas+1][columna]==1 || m[filas+2][columna]==1 || m[filas+3][columna]==1){
             printf("\nYa has colocado el barco en la posicion [%d][%c]\n", filas, letra);
-            i--;
-}
+        }
+            
 
-           }while(filas < 0 && filas > 10);
+			
+           }while((columna >= 10) || (columna < 0) || m[filas][columna]==1 || m[filas+1][columna]==1 || m[filas+2][columna]==1 || m[filas+3][columna]==1 );
 
-           m[filas][columna] = 1;
-       }
+       
+       for(i = 0; i < 4; i++){
+		 m[filas+i][columna] = 1;
+		 }
 
-       imprimetablero(m);
+       system("cls");
+		printf("Jugador 1, coloca tus barcos:\n");
+       	imprimetablero(m);
        getch();
        system("cls");
 
@@ -435,7 +441,6 @@ do{
       system("cls");
 
        printf("Elije 3 columnas para ubicarlo: \n");
-       for(i = 0; i < 3; i++){
        
        do{
            printf("Introduce una columna: ");
@@ -455,7 +460,7 @@ do{
 
 
        m[filas][columna] = 1;
-       }
+       
 
 
        imprimetablero(m);
