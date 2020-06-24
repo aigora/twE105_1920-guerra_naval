@@ -1,19 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include<time.h>
-#include <ctype.h>  //más sencillo
+#include <ctype.h>
+#include <conio.h>//más sencillo
 #include <string.h>
-#ifdef WIN32/////////////////estas son las librerias que me  dijo que si podiamos utilizar 
-	#include <windows.h>	
-	#define Esperar(x) Sleep(x)
-	#define Limpiar_Pantalla system("cls")
-#endif
-
-#ifdef LINUX
-	#include <unistd.h>
-	#define Esperar(x) sleep(x)
-	#define Limpiar_Pantalla system("clear")
-#endif  
 
 
 
