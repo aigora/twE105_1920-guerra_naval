@@ -76,7 +76,7 @@ int main()
        if(gameover(jugador2, cont2) == 0){
            system("cls");
            printf("Turno, Jugador 2:\n");
-           imprimetablero(jugador2);
+          //  imprimetablero(jugador2);
            ataque_de_la_computadora(jugador1, jugador2);
 
            if(gameover(jugador1, cont1)){
