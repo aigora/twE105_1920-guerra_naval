@@ -4,7 +4,13 @@
 #include <ctype.h>
 #include <string.h>
 
-
+typedef struct datos
+{
+    char nombre[20];
+    int edad;
+    int correctas;
+    int incorrectas;
+} datos;
 
 int transformanumero(char num);
 int transformaletra(char letra);
@@ -12,7 +18,7 @@ void iniciartablero(int m[10][10]);
 int gameover(int m[10][10], int cont);
 void posiciona(int m[10][10]);
 void imprimetablero(int m[10][10]);
-void turnoJugador(int m[10][10], int m2[10][10]);
+void turnoJugador(int m[10][10], int m2[10][10],datos *d);
 
 void portaaviones(int m[10][10]);
 void acorazado(int m[10][10]);
@@ -30,6 +36,21 @@ int i,j;
 
 int main()
 {
+	FILE *fich;
+   
+   fich=fopen("partida.txt","a");
+	
+   datos d;
+   
+   printf("\nIntroduzca su nombre:\t");
+   scanf("%s",d.nombre);
+   
+   printf("\nIntroduzca su edad:\t");
+   scanf("%d",&d.edad);
+	
+	d.correctas =0;
+	d.incorrectas =0;
+	
    int findeljuego = 0, cont1 = 0, cont2 = 0;
 
    int jugador1[10][10], jugador2 [10][10];
@@ -60,7 +81,7 @@ int main()
            printf("Turno, Jugador 1:\n");
            imprimetablero(jugador1);
            system("COLOR 02");
-           turnoJugador(jugador2, jugador1);//  (jugador x <- judaros y) 
+           turnoJugador(jugador2, jugador1,&d);//  (jugador x <- judaros y) 
 
            if(gameover(jugador2, cont2)){
                findeljuego = 1;
@@ -89,6 +110,14 @@ int main()
            }
        }
    }
+   
+   fprintf(fich, "nombre: %s \n", d.nombre);
+   fprintf(fich, "edad: %d \n", d.edad);
+   fprintf(fich, "movimientos correctos: %d \n", d.correctas);
+   fprintf(fich, "movimientos incorrectos: %d \n", d.incorrectas);
+   
+   fclose(fich);
+   
    return 0;
 }
 
@@ -182,7 +211,7 @@ void imprimetablero(int m[10][10]){
 }
 
 /*Esta funcion va a hundir la flota del oponete a través de turnos */
-void turnoJugador(int m[10][10], int m2[10][10]){
+void turnoJugador(int m[10][10], int m2[10][10],datos *d){
    char letra, fila;
    int filas, columna;
 
@@ -212,6 +241,7 @@ do{
        columna = transformaletra(letra);
 
    if(m[filas][columna] == 1){
+   	(*d).correctas ++;
        printf("\nBarco Tocado\n");
        m[filas][columna] = 2;
        system("COLOR 4f");
@@ -221,7 +251,7 @@ do{
        system("COLOR 07");
 
    }else{
-
+    (*d).incorrectas ++;
        system("COLOR 30");
        printf("\nAgua\n");
        printf("\nPulsa enter para acabar el turno");
@@ -1117,6 +1147,10 @@ void posiciona_comp(int m[10][10]){
    	
    	
    	system("cls");
-
+   	//Si se activa esta funcion se puede ver el tablero de la maquina
+   	/*
+	imprimetablero(m);
+	*/
+	getch();
 
 }
