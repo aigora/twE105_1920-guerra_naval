@@ -10,6 +10,8 @@ typedef struct datos
     int edad;
     int correctas;
     int incorrectas;
+    int correctas_comp;
+    int incorrectas_comp;
 } datos;
 
 int transformanumero(char num);
@@ -18,14 +20,14 @@ void iniciartablero(int m[10][10]);
 int gameover(int m[10][10], int cont);
 void posiciona(int m[10][10]);
 void imprimetablero(int m[10][10]);
-void turnoJugador(int m[10][10], int m2[10][10],datos *d);
+void turnoJugador(int m[10][10], int m2[10][10], int m3[10][10],datos *d);
 
 void portaaviones(int m[10][10]);
 void acorazado(int m[10][10]);
 void submarino(int m[10][10]);
 void crucero(int m[10][10]);
 void destructor(int m[10][10]);
-void ataque_de_la_computadora(int m[10][10], int m2[10][10]);
+void ataque_de_la_computadora(int m[10][10], int m2[10][10],datos *d);
 void portaaviones_comp(int m[10][10]);
 void acorazado_comp(int m[10][10]);
 void submarino_comp(int m[10][10]);
@@ -38,7 +40,7 @@ int main()
 {
 	FILE *fich;
    
-   fich=fopen("partida.txt","a");
+   fich=fopen("RESUMEN_BATALLA_NAVAL.txt","w");
 	
    datos d;
    
@@ -50,14 +52,17 @@ int main()
 	
 	d.correctas =0;
 	d.incorrectas =0;
+	d.correctas_comp =0;
+	d.incorrectas_comp =0;
 	
    int findeljuego = 0, cont1 = 0, cont2 = 0;
 
-   int jugador1[10][10], jugador2 [10][10];
+   int jugador1[10][10], jugador2 [10][10], movimientos[10][10];
 	
 
    iniciartablero(jugador1);
    iniciartablero(jugador2);
+   iniciartablero(movimientos);
    
 
    printf("Jugador 1, coloca tus barcos:\n");
@@ -80,8 +85,10 @@ int main()
            system("cls");
            printf("Turno, Jugador 1:\n");
            imprimetablero(jugador1);
+           printf("Tablero con tus movimientos:\n");
+           imprimetablero(movimientos);
            system("COLOR 02");
-           turnoJugador(jugador2, jugador1,&d);//  (jugador x <- judaros y) 
+           turnoJugador(jugador2, jugador1, movimientos,&d);//  (jugador x <- judaros y) 
 
            if(gameover(jugador2, cont2)){
                findeljuego = 1;
@@ -98,7 +105,7 @@ int main()
            system("cls");
            printf("Turno, Jugador 2:\n");
           //  imprimetablero(jugador2);
-           ataque_de_la_computadora(jugador1, jugador2);
+           ataque_de_la_computadora(jugador1, jugador2,&d);
 
            if(gameover(jugador1, cont1)){
                findeljuego = 1;
@@ -115,6 +122,8 @@ int main()
    fprintf(fich, "edad: %d \n", d.edad);
    fprintf(fich, "movimientos correctos: %d \n", d.correctas);
    fprintf(fich, "movimientos incorrectos: %d \n", d.incorrectas);
+   fprintf(fich, "movimientos correctos computadora: %d \n", d.correctas_comp);
+   fprintf(fich, "movimientos incorrectos computadora: %d \n", d.incorrectas_comp);
    
    fclose(fich);
    
@@ -211,7 +220,7 @@ void imprimetablero(int m[10][10]){
 }
 
 /*Esta funcion va a hundir la flota del oponete a través de turnos */
-void turnoJugador(int m[10][10], int m2[10][10],datos *d){
+void turnoJugador(int m[10][10], int m2[10][10], int m3[10][10],datos *d){
    char letra, fila;
    int filas, columna;
 
@@ -244,6 +253,7 @@ do{
    	(*d).correctas ++;
        printf("\nBarco Tocado\n");
        m[filas][columna] = 2;
+       m3[filas][columna] = 2;
        system("COLOR 4f");
 
        printf("\nPulsa enter para acabar el turno");
@@ -254,6 +264,7 @@ do{
     (*d).incorrectas ++;
        system("COLOR 30");
        printf("\nAgua\n");
+       m3[filas][columna] = 2;
        printf("\nPulsa enter para acabar el turno");
        getch();
        system("COLOR 07");
@@ -849,7 +860,7 @@ do{
 
 
 
-void ataque_de_la_computadora(int m[10][10], int m2[10][10]){
+void ataque_de_la_computadora(int m[10][10], int m2[10][10], datos *d){
 //scanf=radoi
   ///char letra, fila;
    //int filas, columna;
@@ -867,7 +878,8 @@ columna-=65;
   
 
    if(m[fila][columna] > 0 && m[fila][columna] != 2){
-       printf("\nBarco Hundido\n");
+   		(*d).correctas_comp ++;
+       printf("\nBarco Tocado\n");
        m[fila][columna] = 2;
        system("COLOR 4f");
 
@@ -879,7 +891,8 @@ columna-=65;
        system("COLOR 07");
 
    }else{
-
+   	
+		(*d).incorrectas_comp ++;
        system("COLOR 30");
        printf("\nAgua\n");
        printf("\nPulsa enter para acabar el turno");
