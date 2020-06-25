@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include<time.h>
+#include <time.h>
 #include <ctype.h>
-#include <conio.h>//más sencillo
 #include <string.h>
 
 
@@ -15,9 +14,17 @@ void posiciona(int m[10][10]);
 void imprimetablero(int m[10][10]);
 void turnoJugador(int m[10][10], int m2[10][10]);
 
-void posicionarbarco(int m[10][10],int tamano,char nombre_barco[]);
+void portaaviones(int m[10][10]);
+void acorazado(int m[10][10]);
+void submarino(int m[10][10]);
+void crucero(int m[10][10]);
+void destructor(int m[10][10]);
 void ataque_de_la_computadora(int m[10][10], int m2[10][10]);
-void posicionarbarco_comp(int m[10][10],int tamano);
+void portaaviones_comp(int m[10][10]);
+void acorazado_comp(int m[10][10]);
+void submarino_comp(int m[10][10]);
+void crucero_comp(int m[10][10]);
+void destructor_comp(int m[10][10]);
 void posiciona_comp(int m[10][10]);
 int i,j;
 
@@ -26,6 +33,7 @@ int main()
    int findeljuego = 0, cont1 = 0, cont2 = 0;
 
    int jugador1[10][10], jugador2 [10][10];
+	
 
    iniciartablero(jugador1);
    iniciartablero(jugador2);
@@ -57,6 +65,8 @@ int main()
            if(gameover(jugador2, cont2)){
                findeljuego = 1;
                system("cls");
+               
+               system("COLOR A0");
                imprimetablero(jugador1);
                printf("\n");
                printf("\nHa ganado Jugador 1\n");
@@ -201,14 +211,11 @@ do{
 
        columna = transformaletra(letra);
 
-   if(m[filas][columna] > 0 && m[fila][columna] != 2){
-       printf("\nBarco Hundido\n");
+   if(m[filas][columna] == 1){
+       printf("\nBarco Tocado\n");
        m[filas][columna] = 2;
        system("COLOR 4f");
 
-       if(m2[filas][columna] != 1){
-           m2[filas][columna] = 2;
-       }
        printf("\nPulsa enter para acabar el turno");
        getch();
        system("COLOR 07");
@@ -226,31 +233,34 @@ do{
 /* Esta funcion va a realizar la colocacion de cada barco en las posiciones pedidas */
 void posiciona(int m[10][10]){
    
-   posicionarbarco(m,5,"portaaviones");
-   posicionarbarco(m,4,"acorazado");
-   posicionarbarco(m,3,"submarino");
-   posicionarbarco(m,3,"crucero");
-   posicionarbarco(m,2,"destructor");
+   imprimetablero(m);
+   portaaviones(m);
+   acorazado(m);
+   submarino(m);
+   crucero(m);
+   destructor(m);
 
    system("cls");
 }
-void posicionarbarco(int m[10][10],int tamano,char nombre_barco[])
-{
+void portaaviones(int m[10][10]){
+
    char pos, letra, fila;
    int filas, columna;
-   printf("Como quieres colocar el %s (n de casillas=%i)\n",nombre_barco,tamano);
+
+printf("Como quieres colocar el portaaviones *****\n");
    do{
-   printf("Horizonal (H), Vertical(V): ");
-   scanf("%s", &pos);
+       printf("Horizonal (H), Vertical(V): ");
+       scanf("%s", &pos);
    }while(toupper(pos) != 'H' && toupper(pos) != 'V' );
 
    switch(toupper(pos)){
-    case 'H':
+   
+   case 'H':
    
        do{
 do{
 
-       printf("Introduce una fila (numero): ");
+       printf("En que fila lo quieres colocar: ");
        fflush(stdin);
        scanf("%c", &fila);
        fflush(stdin);        
@@ -259,47 +269,46 @@ do{
        }while(filas < 0 || filas > 10);
 }while(!isdigit(fila));
 
-      system("cls");
-      printf("Jugador 1, coloca tus barcos:\n");
-      imprimetablero(m);
+      
 
-       printf("Elije la primera columna para ubicarlo (letra): \n");
+       printf("Elije la primera columna para ubicarlo: \n");
        
        
-do{
-   do{
-       scanf("%c", &letra);
-       fflush(stdin);
-       letra  = toupper(letra);
+       do{
+           fflush(stdin);
+           scanf("%c", &letra);
+           fflush(stdin);
+           letra  = toupper(letra);
            
-       columna = transformaletra(letra);
+           columna = transformaletra(letra);
            
-       if(m[filas][columna] == 1){
-           printf("\nYa has colocado el barco en la posicion [%d][%c]\n", filas, letra);
-           i--;
-}
+          			if((columna > 5) || (columna < 0) || m[filas][columna] == 1 || m[filas][columna+1]==1 || m[filas][columna+2]==1 || m[filas][columna+3]==1 || m[filas][columna+4]==1){
+            printf("\nNo puedes colocar el barco en la posicion [%d][%c]\n", filas, letra);
+			}
+            
 
-   }while(isdigit(letra));
-}while ((columna >= 10) || (columna < 0));
+       }while(isdigit(letra) || (columna > 5) || (columna < 0) || m[filas][columna]==1 || m[filas][columna+1]==1 || m[filas][columna+2]==1 || m[filas][columna+4]==1);
 
-	for(i = 0; i < tamano; i++){
-       m[filas][columna + i] = 1;
-   	}
 
+
+       
+       for(i = 0; i < 5; i++){
+		 m[filas][columna+i] = 1;
+		 }
 		system("cls");
 		printf("Jugador 1, coloca tus barcos:\n");
-       imprimetablero(m);
+       	imprimetablero(m);
        getch();
        
 
        break;
 
-    case 'V':
+   case 'V':
 
        do{
         do{
        
-           printf("En que columna lo quieres colocar (letra): ");
+           printf("En que columna lo quieres colocar: ");
            fflush(stdin);
            scanf("%c", &letra);
            fflush(stdin);
@@ -307,42 +316,500 @@ do{
            
            columna = transformaletra(letra);
            
-		}while(isdigit(letra));
-	   }while ((columna >= 10) || (columna < 0));
+}while(isdigit(letra));
+}while ((columna >= 10) || (columna < 0));
 
-       system("cls");
-       printf("Jugador 1, coloca tus barcos:\n");
-       imprimetablero(m);
 
-       printf("Elije la primera fila para ubicarlo (numero): \n");
-       
+       printf("Elije la primera fila para ubicarlo: \n");
+    
        
            do{
-            do{
-       			scanf("%c", &fila);
-       			fflush(stdin);        
-       			filas = transformanumero(fila);
-       		}while(!isdigit(fila));
            
-           	if(m[filas][columna] == 1){
-            	printf("\nYa has colocado el barco en la posicion [%d][%c]\n", filas, letra);
-            	i--;
-				}	
+            do{
+       fflush(stdin);
+       scanf("%c", &fila);
+       fflush(stdin);        
+       filas = transformanumero(fila);
+       }while(!isdigit(fila));
+           
+          	if((filas > 5) || (filas < 0) || m[filas][columna] == 1 || m[filas+1][columna]==1 || m[filas+2][columna]==1 || m[filas+3][columna]==1 || m[filas+4][columna]==1){
+            printf("\nNo puedes colocar el barco en la posicion [%d][%c]\n", filas, letra);
+        }
+            
 
-           }while((filas < 0 && filas > 10) || !isdigit(fila));
+			
+           }while((filas > 5) || (filas < 0) || m[filas][columna]==1 || m[filas+1][columna]==1 || m[filas+2][columna]==1 || m[filas+3][columna]==1 || m[filas+4][columna]==1);
 
-		for(i = 0; i < tamano; i++){
-           m[filas+i][columna] = 1;
-       	}
-		system("cls");
+       
+       for(i = 0; i < 5; i++){
+		 m[filas+i][columna] = 1;
+		 }
 
-	   printf("Jugador 1, coloca tus barcos:\n");
-       imprimetablero(m);
+       system("cls");
+		printf("Jugador 1, coloca tus barcos:\n");
+       	imprimetablero(m);
        getch();
     
 
        break;
    }
+
+}
+
+void acorazado(int m[10][10]){
+
+   char pos, letra, fila;
+   int filas, columna;
+
+printf("Como quieres colocar el acorazado ****\n");
+   do{
+       printf("Horizonal (H), Vertical(V): ");
+       scanf("%s", &pos);
+   }while(toupper(pos) != 'H' && toupper(pos) != 'V' );
+
+   switch(toupper(pos)){
+   
+   case 'H':
+   
+       do{
+do{
+
+       printf("En que fila lo quieres colocar: ");
+       fflush(stdin);
+       scanf("%c", &fila);
+       fflush(stdin);        
+       filas = transformanumero(fila);
+       
+       }while(filas < 0 || filas > 10);
+}while(!isdigit(fila));
+
+      
+
+       printf("Elije la primera columna para ubicarlo: \n");
+       
+       
+       do{
+           fflush(stdin);
+           scanf("%c", &letra);
+           fflush(stdin);
+           letra  = toupper(letra);
+           
+           columna = transformaletra(letra);
+           
+          			if((columna > 6) || (columna < 0) || m[filas][columna] == 1 || m[filas][columna+1]==1 || m[filas][columna+2]==1 || m[filas][columna+3]==1){
+            printf("\nNo puedes colocar el barco en la posicion [%d][%c]\n", filas, letra);
+			}
+            
+
+       }while(isdigit(letra) || (columna > 6) || (columna < 0) || m[filas][columna]==1 || m[filas][columna+1]==1 || m[filas][columna+2]==1 || m[filas][columna+3]==1);
+
+
+
+       
+       for(i = 0; i < 4; i++){
+		 m[filas][columna+i] = 1;
+		 }
+		system("cls");
+		printf("Jugador 1, coloca tus barcos:\n");
+       	imprimetablero(m);
+       getch();
+       
+
+       break;
+
+   case 'V':
+
+       do{
+        do{
+       
+           printf("En que columna lo quieres colocar: ");
+           fflush(stdin);
+           scanf("%c", &letra);
+           fflush(stdin);
+           letra = toupper(letra);
+           
+           columna = transformaletra(letra);
+           
+}while(isdigit(letra));
+}while ((columna >= 10) || (columna < 0));
+
+
+       printf("Elije la primera fila para ubicarlo: \n");
+    
+       
+           do{
+           
+            do{
+       fflush(stdin);
+       scanf("%c", &fila);
+       fflush(stdin);        
+       filas = transformanumero(fila);
+       }while(!isdigit(fila));
+           
+          	if((filas > 6) || (filas < 0) || m[filas][columna] == 1 || m[filas+1][columna]==1 || m[filas+2][columna]==1 || m[filas+3][columna]==1){
+            printf("\nNo puedes colocar el barco en la posicion [%d][%c]\n", filas, letra);
+        }
+            
+
+			
+           }while((filas > 6) || (filas < 0) || m[filas][columna]==1 || m[filas+1][columna]==1 || m[filas+2][columna]==1 || m[filas+3][columna]==1 );
+
+       
+       for(i = 0; i < 4; i++){
+		 m[filas+i][columna] = 1;
+		 }
+
+       system("cls");
+		printf("Jugador 1, coloca tus barcos:\n");
+       	imprimetablero(m);
+       getch();
+    
+
+       break;
+   }
+
+}
+
+void submarino(int m[10][10]){
+
+   char pos, letra, fila;
+   int filas, columna;
+
+printf("Como quieres colocar el submarino ***\n");
+   do{
+       printf("Horizonal (H), Vertical(V): ");
+       scanf("%s", &pos);
+   }while(toupper(pos) != 'H' && toupper(pos) != 'V' );
+
+   switch(toupper(pos)){
+   
+   case 'H':
+   
+       do{
+do{
+
+       printf("En que fila lo quieres colocar: ");
+       fflush(stdin);
+       scanf("%c", &fila);
+       fflush(stdin);        
+       filas = transformanumero(fila);
+       
+       }while(filas < 0 || filas > 10);
+}while(!isdigit(fila));
+
+      
+
+       printf("Elije la primera columna para ubicarlo: \n");
+       
+       
+       do{
+           fflush(stdin);
+           scanf("%c", &letra);
+           fflush(stdin);
+           letra  = toupper(letra);
+           
+           columna = transformaletra(letra);
+           
+          			if((columna > 7) || (columna < 0) || m[filas][columna] == 1 || m[filas][columna+1]==1 || m[filas][columna+2]==1){
+            printf("\nNo puedes colocar el barco en la posicion [%d][%c]\n", filas, letra);
+			}
+            
+
+       }while(isdigit(letra) || (columna > 7) || (columna < 0) || m[filas][columna]==1 || m[filas][columna+1]==1 || m[filas][columna+2]==1);
+
+
+
+       
+       for(i = 0; i < 3; i++){
+		 m[filas][columna+i] = 1;
+		 }
+		system("cls");
+		printf("Jugador 1, coloca tus barcos:\n");
+       	imprimetablero(m);
+       getch();
+    
+
+       break;
+
+   case 'V':
+
+       do{
+        do{
+       
+           printf("En que columna lo quieres colocar: ");
+           fflush(stdin);
+           scanf("%c", &letra);
+           fflush(stdin);
+           letra = toupper(letra);
+           
+           columna = transformaletra(letra);
+           
+}while(isdigit(letra));
+}while ((columna >= 10) || (columna < 0));
+
+
+       printf("Elije la primera fila para ubicarlo: \n");
+    
+       
+           do{
+           
+            do{
+       fflush(stdin);
+       scanf("%c", &fila);
+       fflush(stdin);        
+       filas = transformanumero(fila);
+       }while(!isdigit(fila));
+           
+          	if((filas > 7) || (filas < 0) || m[filas][columna] == 1 || m[filas+1][columna]==1 || m[filas+2][columna]==1){
+            printf("\nNo puedes colocar el barco en la posicion [%d][%c]\n", filas, letra);
+        }
+            
+
+			
+           }while((filas > 7) || (filas < 0) || m[filas][columna]==1 || m[filas+1][columna]==1 || m[filas+2][columna]==1);
+
+       
+       for(i = 0; i < 3; i++){
+		 m[filas+i][columna] = 1;
+		 }
+
+       system("cls");
+		printf("Jugador 1, coloca tus barcos:\n");
+       	imprimetablero(m);
+       getch();
+       
+
+       break;
+   }
+
+}
+
+void crucero(int m[10][10]){
+
+   char pos, letra, fila;
+   int filas, columna;
+
+printf("Como quieres colocar el crucero ***\n");
+   do{
+       printf("Horizonal (H), Vertical(V): ");
+       scanf("%s", &pos);
+   }while(toupper(pos) != 'H' && toupper(pos) != 'V' );
+
+   switch(toupper(pos)){
+   
+   case 'H':
+   
+       do{
+do{
+
+       printf("En que fila lo quieres colocar: ");
+       fflush(stdin);
+       scanf("%c", &fila);
+       fflush(stdin);        
+       filas = transformanumero(fila);
+       
+       }while(filas < 0 || filas > 10);
+}while(!isdigit(fila));
+
+      
+
+       printf("Elije la primera columna para ubicarlo: \n");
+       
+       
+       do{
+           fflush(stdin);
+           scanf("%c", &letra);
+           fflush(stdin);
+           letra  = toupper(letra);
+           
+           columna = transformaletra(letra);
+           
+          			if((columna > 7) || (columna < 0) || m[filas][columna] == 1 || m[filas][columna+1]==1 || m[filas][columna+2]==1){
+            printf("\nNo puedes colocar el barco en la posicion [%d][%c]\n", filas, letra);
+			}
+            
+
+       }while(isdigit(letra) || (columna > 7) || (columna < 0) || m[filas][columna]==1 || m[filas][columna+1]==1 || m[filas][columna+2]==1);
+
+
+
+       
+       for(i = 0; i < 3; i++){
+		 m[filas][columna+i] = 1;
+		 }
+		system("cls");
+		printf("Jugador 1, coloca tus barcos:\n");
+       	imprimetablero(m);
+       getch();
+       
+
+       break;
+
+   case 'V':
+
+       do{
+        do{
+       
+           printf("En que columna lo quieres colocar: ");
+           fflush(stdin);
+           scanf("%c", &letra);
+           fflush(stdin);
+           letra = toupper(letra);
+           
+           columna = transformaletra(letra);
+           
+}while(isdigit(letra));
+}while ((columna >= 10) || (columna < 0));
+
+
+       printf("Elije la primera fila para ubicarlo: \n");
+    
+       
+           do{
+           
+            do{
+       fflush(stdin);
+       scanf("%c", &fila);
+       fflush(stdin);        
+       filas = transformanumero(fila);
+       }while(!isdigit(fila));
+           
+          	if((filas > 7) || (filas < 0) || m[filas][columna] == 1 || m[filas+1][columna]==1 || m[filas+2][columna]==1){
+            printf("\nNo puedes colocar el barco en la posicion [%d][%c]\n", filas, letra);
+        }
+            
+
+			
+           }while((filas > 7) || (filas < 0) || m[filas][columna]==1 || m[filas+1][columna]==1 || m[filas+2][columna]==1);
+
+       
+       for(i = 0; i < 3; i++){
+		 m[filas+i][columna] = 1;
+		 }
+
+       system("cls");
+		printf("Jugador 1, coloca tus barcos:\n");
+       	imprimetablero(m);
+       getch();
+       
+
+       break;
+   }
+
+}
+
+void destructor(int m[10][10]){
+
+   char pos, letra, fila;
+   int filas, columna;
+
+printf("Como quieres colocar el destructor **\n");
+   do{
+       printf("Horizonal (H), Vertical(V): ");
+       scanf("%s", &pos);
+   }while(toupper(pos) != 'H' && toupper(pos) != 'V' );
+
+   switch(toupper(pos)){
+   
+   case 'H':
+   
+       do{
+do{
+
+       printf("En que fila lo quieres colocar: ");
+       fflush(stdin);
+       scanf("%c", &fila);
+       fflush(stdin);        
+       filas = transformanumero(fila);
+       
+       }while(filas < 0 || filas > 10);
+}while(!isdigit(fila));
+
+      
+
+       printf("Elije la primera columna para ubicarlo: \n");
+       
+       
+       do{
+           fflush(stdin);
+           scanf("%c", &letra);
+           fflush(stdin);
+           letra  = toupper(letra);
+           
+           columna = transformaletra(letra);
+           
+          			if((columna > 8) || (columna < 0) || m[filas][columna] == 1 || m[filas][columna+1]==1){
+            printf("\nNo puedes colocar el barco en la posicion [%d][%c]\n", filas, letra);
+			}
+            
+
+       }while(isdigit(letra) || (columna > 8) || (columna < 0) || m[filas][columna]==1 || m[filas][columna+1]==1);
+
+
+
+       
+       for(i = 0; i < 2; i++){
+		 m[filas][columna+i] = 1;
+		 }
+		system("cls");
+		printf("Jugador 1, coloca tus barcos:\n");
+       	imprimetablero(m);
+       getch();
+       
+
+       break;
+
+   case 'V':
+
+       do{
+        do{
+       
+           printf("En que columna lo quieres colocar: ");
+           fflush(stdin);
+           scanf("%c", &letra);
+           fflush(stdin);
+           letra = toupper(letra);
+           
+           columna = transformaletra(letra);
+           
+}while(isdigit(letra));
+}while ((columna >= 10) || (columna < 0));
+
+
+       printf("Elije la primera fila para ubicarlo: \n");
+    
+       
+           do{
+           
+            do{
+       fflush(stdin);
+       scanf("%c", &fila);
+       fflush(stdin);        
+       filas = transformanumero(fila);
+       }while(!isdigit(fila));
+           
+          	if((filas > 8) || (filas < 0) ||  m[filas][columna] == 1 || m[filas+1][columna]==1){
+            printf("\nNo puedes colocar el barco en la posicion [%d][%c]\n", filas, letra);
+        }
+            
+
+			
+           }while((filas > 8) || (filas < 0) || m[filas][columna]==1 || m[filas+1][columna]==1);
+
+       
+       for(i = 0; i < 2; i++){
+		 m[filas+i][columna] = 1;
+		 }
+
+       system("cls");
+		printf("Jugador 1, coloca tus barcos:\n");
+       	imprimetablero(m);
+       getch();
+       
+
+       break;
+   }
+
 }
 
 
@@ -390,24 +857,81 @@ columna-=65;
        system("COLOR 07");
    }
 }
-void posicionarbarco_comp(int m[10][10],int tamano){
-   int pos_ale,columna,fila;//posicion aleatotria
+void portaaviones_comp(int m[10][10]){
+
+    int pos_ale,columna,filas;//posicion aleatotria
    int h=0;
    srand(time(NULL));
-   pos_ale=rand()%1;// nº aleatorio entre 0 y 1 -> para alternar aleatoriamente si es V o H   
+   pos_ale=rand()%2;// nº aleatorio entre 0 y 1 -> para alternar aleatoriamente si es V o H   
    
    switch(pos_ale){
    case 0:
    srand(time(NULL));
-       fila=rand()%10;// del 0 a   
-       columna=rand()%10;
-       //antención poden salir numeros iguales y aleatorios/////////////////////////////////////////////////////////////////////
-	for(i = 0; i < tamano; i++){
-       m[fila][columna + i] = 1;
+       filas=rand()%10;// del 0 a   
+       
+       do{
+          columna=rand()%6;
+           
+            
+
+       }while(m[filas][columna]==1 || m[filas][columna+1]==1 || m[filas][columna+2]==1 || m[filas][columna+3]==1 || m[filas][columna+4]==1);
+      
+	for(i = 0; i < 5; i++){
+       m[filas][columna + i] = 1;
    	}
 
-		system("cls");
-        getch();
+	
+        
+      
+
+       break;
+
+    case 1:
+       srand(time(NULL));
+	   columna=rand()%10;
+	   
+           	do{
+      			filas=rand()%6;
+           	}while(m[filas][columna]==1 || m[filas+1][columna]==1 || m[filas+2][columna]==1 || m[filas+3][columna]==1 || m[filas+4][columna]==1);
+	   
+    for(i = 0; i < 5; i++){
+       m[filas+ i][columna] = 1;
+   	}
+
+	    
+    
+        break;
+   }
+
+
+   printf("Portaaviones generado\n");
+   getch();
+}
+
+void acorazado_comp(int m[10][10]){
+
+	int pos_ale,columna,filas;//posicion aleatotria
+   int h=0;
+   srand(time(NULL));
+   pos_ale=rand()%2;// nº aleatorio entre 0 y 1 -> para alternar aleatoriamente si es V o H   
+   
+   switch(pos_ale){
+   case 0:
+   srand(time(NULL));
+       filas=rand()%10;// del 0 a   
+       
+       	do{
+          	columna=rand()%7;
+            
+
+       	}while(m[filas][columna]==1 || m[filas][columna+1]==1 || m[filas][columna+2]==1 || m[filas][columna+3]==1);
+      
+	for(i = 0; i < 4; i++){
+       m[filas][columna + i] = 1;
+   	}
+
+	
+     
        
 
        break;
@@ -415,26 +939,184 @@ void posicionarbarco_comp(int m[10][10],int tamano){
     case 1:
        srand(time(NULL));
 	   columna=rand()%10;
-	   fila=rand()%10;
 	   
-    for(i = 0; i < tamano; i++){
-       m[fila+ i][columna] = 1;
+	   
+           do{
+           
+      		filas=rand()%7;
+           	
+           }while(m[filas][columna]==1 || m[filas+1][columna]==1 || m[filas+2][columna]==1 || m[filas+3][columna]==1);
+	   
+    for(i = 0; i < 4; i++){
+       m[filas+ i][columna] = 1;
    	}
 
-		system("cls");          
-        getch();
+		   
+   
         break;
    }
+printf("Acorazado generado\n"); 
+getch();     
+}
 
+void submarino_comp(int m[10][10]){
 
+	int pos_ale,columna,filas;//posicion aleatotria
+   int h=0;
+   srand(time(NULL));
+   pos_ale=rand()%2;// nº aleatorio entre 0 y 1 -> para alternar aleatoriamente si es V o H   
+   
+   switch(pos_ale){
+   case 0:
+   srand(time(NULL));
+       filas=rand()%10;// del 0 a   
+       
+       do{
+          columna=rand()%8;
+          
+           
+          		
+       }while(m[filas][columna]==1 || m[filas][columna+1]==1 || m[filas][columna+2]==1);
+      
+	for(i = 0; i < 3; i++){
+       m[filas][columna + i] = 1;
+   	}
 
+	
+       
+       
 
+       break;
+
+    case 1:
+       srand(time(NULL));
+	   columna=rand()%10;
+	   
+	   
+           do{
+           
+      		filas=rand()%8;
+      		
+           
+			
+           }while(m[filas][columna]==1 || m[filas+1][columna]==1 || m[filas+2][columna]==1);
+	   
+    for(i = 0; i < 3; i++){
+       m[filas+ i][columna] = 1;
+   	}
+
+	    
+   
+        break;
+   }
+  	printf("Submarino generado\n");
+	getch();     
+}
+
+void crucero_comp(int m[10][10]){
+
+	int pos_ale,columna,filas;//posicion aleatotria
+   int h=0;
+   srand(time(NULL));
+   pos_ale=rand()%2;// nº aleatorio entre 0 y 1 -> para alternar aleatoriamente si es V o H   
+   
+   switch(pos_ale){
+   case 0:
+   srand(time(NULL));
+       filas=rand()%10;// del 0 a   
+       
+       do{
+          columna=rand()%8;
+           
+
+       }while(m[filas][columna]==1 || m[filas][columna+1]==1 || m[filas][columna+2]==1);
+      
+	for(i = 0; i < 3; i++){
+       m[filas][columna + i] = 1;
+   	}
+
+	
+       break;
+
+    case 1:
+       srand(time(NULL));
+	   columna=rand()%10;
+	   
+	   
+           do{
+           
+      		filas=rand()%8;
+           
+          
+           }while(m[filas][columna]==1 || m[filas+1][columna]==1 || m[filas+2][columna]==1);
+	   
+    for(i = 0; i < 3; i++){
+       m[filas+ i][columna] = 1;
+   	}
+         
+   
+        break;
+   }
+  	printf("Crucero generado\n");
+	getch();  
+}
+
+void destructor_comp(int m[10][10]){
+
+	int pos_ale,columna,filas;//posicion aleatotria
+   int h=0;
+   srand(time(NULL));
+   pos_ale=rand()%2;// nº aleatorio entre 0 y 1 -> para alternar aleatoriamente si es V o H   
+   
+   switch(pos_ale){
+   case 0:
+   srand(time(NULL));
+       filas=rand()%10;// del 0 a   
+       
+       do{
+          columna=rand()%9;
+           
+
+       }while(m[filas][columna]==1 || m[filas][columna+1]==1);
+      
+	for(i = 0; i < 2; i++){
+       m[filas][columna + i] = 1;
+   	}
+
+	
+       break;
+
+    case 1:
+       srand(time(NULL));
+	   columna=rand()%10;
+	   
+	   
+           do{
+           
+      		filas=rand()%9;
+           
+           }while(m[filas][columna]==1 || m[filas+1][columna]==1);
+	   
+    for(i = 0; i < 2; i++){
+       m[filas+ i][columna] = 1;
+   	}
+
+        
+   
+        break;
+   }
+  	printf("destructor generado\n");
+	getch();  
 }
 void posiciona_comp(int m[10][10]){
-   posicionarbarco_comp(m,5);
-   posicionarbarco_comp(m,4);
-   posicionarbarco_comp(m,3);
-   posicionarbarco_comp(m,3);
-   posicionarbarco_comp(m,2);
-   system("cls");
+  	portaaviones_comp(m);
+  	acorazado_comp(m);
+   	submarino_comp(m);
+   	crucero_comp(m);
+   	destructor_comp(m);
+   	
+   	
+   	system("cls");
+
+
 }
