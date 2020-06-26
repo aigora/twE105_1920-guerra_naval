@@ -105,9 +105,9 @@ int main()
            system("cls");
            printf("Turno, Jugador 2:\n");         
             	/*Si se activa esta funcion se puede ver el tablero de la maquina(si se desea hacer trampa o terminar antes)
-                  
+                  imprimetablero(jugador2);
 	              */
-		 imprimetablero(jugador2);
+		 
            ataque_de_la_computadora(jugador1, jugador2,&d);
 
            if(gameover(jugador1, cont1)){
