@@ -39,7 +39,7 @@ int i,j;
 int main()
 {
    FILE *fich;/*uso: para llevar datos en él acerca de la partida*/ 
-   fich=fopen("RESUMEN_BATALLA_NAVAL.txt","w");/*su nombre*/
+   fich=fopen("RESUMEN_BATALLA_NAVAL.txt","a");/*su nombre de tipo add si no existe lo creamos y añadimos sin eliminar nada*/
    datos d;/*estructura para almacenar los datos*/
    
    //
