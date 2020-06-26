@@ -3,17 +3,17 @@
 #include <time.h>
 #include <ctype.h>
 #include <string.h>
-
-typedef struct datos
-{
-    char nombre[20];
+//jugador 1 = alumno/profesor
+//jugador 2 = computadora
+typedef struct  
+{   char nombre[20];
     int edad;
-    int correctas;
-    int incorrectas;
-    int correctas_comp;
-    int incorrectas_comp;
+    int correctas;//tocados favorables a jugador 1
+    int incorrectas;//nuestros tiros al agua 
+    int correctas_comp;// tocados favorables a jugador 2
+    int incorrectas_comp;// sus tiros al agua 
 } datos;
-
+/*Funciones explicadas porsteriormente */
 int transformanumero(char num);
 int transformaletra(char letra);
 void iniciartablero(int m[10][10]);
@@ -38,12 +38,11 @@ int i,j;
 
 int main()
 {
-	FILE *fich;
+   FILE *fich;/*uso: para llevar datos en él acerca de la partida*/ 
+   fich=fopen("RESUMEN_BATALLA_NAVAL.txt","w");/*su nombre*/
+   datos d;/*estructura para almacenar los datos*/
    
-   fich=fopen("RESUMEN_BATALLA_NAVAL.txt","w");
-	
-   datos d;
-   
+   //
    printf("\nIntroduzca su nombre:\t");
    scanf("%s",d.nombre);
    
@@ -54,15 +53,16 @@ int main()
 	d.incorrectas =0;
 	d.correctas_comp =0;
 	d.incorrectas_comp =0;
-	
-   int findeljuego = 0, cont1 = 0, cont2 = 0;
+   //	
+   
+   int findeljuego = 0, cont1 = 0, cont2 = 0; /*findeljuego=1 ó 0 1=verdadero o 0= falso */
 
    int jugador1[10][10], jugador2 [10][10], movimientos[10][10];
 	
 
    iniciartablero(jugador1);
    iniciartablero(jugador2);
-   iniciartablero(movimientos);
+   iniciartablero(movimientos);//
    
 
    printf("Jugador 1, coloca tus barcos:\n");
@@ -74,13 +74,13 @@ int main()
 
 //Se leen los turnos de los jugadores y se indica si ha ganado o  ha perdido para ambos jugadores
 
-//Despues de eliminar las posiciones del oponwete se saldrá del juego 
+//Despues de eliminar las posiciones del oponente se saldrá del juego 
 
 
 
    while(findeljuego == 0){
 
-       if(gameover(jugador1, cont1) == 0){
+       if(gameover(jugador1, cont1) == 0){// Comprabacón de si el jugador 1  ha ganado
 
            system("cls");
            printf("Turno, Jugador 1:\n");
@@ -88,7 +88,7 @@ int main()
            printf("Tablero con tus movimientos:\n");
            imprimetablero(movimientos);
            system("COLOR 02");
-           turnoJugador(jugador2, jugador1, movimientos,&d);//  (jugador x <- judaros y) 
+           turnoJugador(jugador2, jugador1, movimientos,&d);//  atacar : (jugador x <- judaros y,...) 
 
            if(gameover(jugador2, cont2)){
                findeljuego = 1;
@@ -101,10 +101,13 @@ int main()
            }
        }
 
-       if(gameover(jugador2, cont2) == 0){
+       if(gameover(jugador2, cont2) == 0){//Comprabación de si jugador 2 ha ganado
            system("cls");
-           printf("Turno, Jugador 2:\n");
-          //  imprimetablero(jugador2);
+           printf("Turno, Jugador 2:\n");         
+            	/*Si se activa esta funcion se puede ver el tablero de la maquina(si se desea hacer trampa o terminar antes)
+                  
+	              */
+		 imprimetablero(jugador2);
            ataque_de_la_computadora(jugador1, jugador2,&d);
 
            if(gameover(jugador1, cont1)){
@@ -117,16 +120,21 @@ int main()
            }
        }
    }
-   
+   //almacenamiento de cada partida
    fprintf(fich, "nombre: %s \n", d.nombre);
    fprintf(fich, "edad: %d \n", d.edad);
    fprintf(fich, "movimientos correctos: %d \n", d.correctas);
    fprintf(fich, "movimientos incorrectos: %d \n", d.incorrectas);
    fprintf(fich, "movimientos correctos computadora: %d \n", d.correctas_comp);
    fprintf(fich, "movimientos incorrectos computadora: %d \n", d.incorrectas_comp);
-   
+   time_t t;
+   struct tm *tm;
+   char fechayhora[100];
+   t=time(NULL);
+   tm=localtime(&t);
+   strftime(fechayhora, 100, "%d/%m/%Y", tm);
+   fprintf(fich,"Hoy es: %s\n", fechayhora);
    fclose(fich);
-   
    return 0;
 }
 
@@ -139,24 +147,24 @@ int transformaletra(char letra)
    int coordenada;
 
    if(letra >= 'A' || letra < 'Z'){
-       coordenada = letra - 65;  // porque en el codigo ascii esa nueva posicion es un numero
+       coordenada = letra - 65;  //En el código ASCII esa nueva posición es un número
    }
 
    return(coordenada);
 }
-
+/*Esta función transformara un caracter a numero*/
 int transformanumero(char num)
 {
    int coordenada;
 
    if(num >= '0' || num < '9'){
-       coordenada = num - 48;
+       coordenada = num - 48;//codigo ASCII
    }
 
    return(coordenada);
 }
 
-/* Esta funcion va iniciar el tablero desde la posicion 0 */
+/* Esta función va iniciar el tablero desde la posicion 0 */
 void iniciartablero(int m[10][10]){
 
 for(i = 0; i < 10; i++){
@@ -166,7 +174,7 @@ for(i = 0; i < 10; i++){
 }
 }
 
-/* Esta funcion va a detectar el fin del juego */
+/* Esta funcion va a detectar el fin del juego comprobando cuantos han sido tocados diferenciando del total cont2 y cont1 los aciertos */
 
 int gameover(int m[10][10], int cont2){
 
@@ -174,14 +182,11 @@ int gameover(int m[10][10], int cont2){
 
    for(i = 0; i < 10; i++){
        for (j = 0; j < 10; j++){
-       if(m[i][j] == 2){
-           cont1 += 1;
-       }
+       if(m[i][j] == 2){cont1 += 1;}// EL DOS QUIERE DECIR TOCADO!
        
-       if(m[i][j] == 2 || m[i][j] == 1){
-        cont2++;
-}
+       if(m[i][j] == 2 || m[i][j] == 1){cont2++;}
    }
+    
 }
 
 if(cont1 == cont2){
@@ -190,6 +195,7 @@ if(cont1 == cont2){
 
 return (res);
 }
+/*mostrar una matriz de carracteres y bordes , es decir el tablero*/
 void imprimetablero(int m[10][10]){
 
    for(i = 0; i <= 10; i++){
@@ -208,7 +214,7 @@ void imprimetablero(int m[10][10]){
        for (j=0; j<10; j++){
 
            if(m[i][j] == 1){
-               printf("# ");
+               printf("# ");/*simboliza a el agua*/
            }else if(m[i][j] == 2){
             printf("X ");
 }else{
@@ -273,7 +279,7 @@ do{
 
 /* Esta funcion va a realizar la colocacion de cada barco en las posiciones pedidas */
 void posiciona(int m[10][10]){
-   
+   //cada barco con deferentes funciones porque unificando todas en una sola funcion se puedíancruzar 
    imprimetablero(m);
    portaaviones(m);
    acorazado(m);
@@ -283,16 +289,18 @@ void posiciona(int m[10][10]){
 
    system("cls");
 }
+/*Función:la metodologia es similar para todos barcos--> colocar vertical o horizontalmente y con solo la primero posición rellenar todas las demas casillas
+ */
 void portaaviones(int m[10][10]){
 
    char pos, letra, fila;
    int filas, columna;
 
-printf("Como quieres colocar el portaaviones *****\n");
+printf("Como quieres colocar el portaaviones *****\n"); 
    do{
        printf("Horizonal (H), Vertical(V): ");
        scanf("%s", &pos);
-   }while(toupper(pos) != 'H' && toupper(pos) != 'V' );
+   }while(toupper(pos) != 'H' && toupper(pos) != 'V' );// Se hace uso de toupper(x) para hacer mayusculas y ahorrase decir si es minuscula o mayuscula dentro del if
 
    switch(toupper(pos)){
    
@@ -305,10 +313,10 @@ do{
        fflush(stdin);
        scanf("%c", &fila);
        fflush(stdin);        
-       filas = transformanumero(fila);
+       filas = transformanumero(fila);//se transforma la letra fila que es de tipo caracter para poscionar
        
-       }while(filas < 0 || filas > 10);
-}while(!isdigit(fila));
+       }while(filas < 0 || filas > 10);// 
+}while(!isdigit(fila));// estas en bucle hasta que el caracter sea un numero del '0' al '9' tratados como caracteres
 
       
 
@@ -325,7 +333,7 @@ do{
            
           			if((columna > 5) || (columna < 0) || m[filas][columna] == 1 || m[filas][columna+1]==1 || m[filas][columna+2]==1 || m[filas][columna+3]==1 || m[filas][columna+4]==1){
             printf("\nNo puedes colocar el barco en la posicion [%d][%c]\n", filas, letra);
-			}
+			}// este if comprueba que no se cruzen o se coloquen barcos en almenos una casilla
             
 
        }while(isdigit(letra) || (columna > 5) || (columna < 0) || m[filas][columna]==1 || m[filas][columna+1]==1 || m[filas][columna+2]==1 || m[filas][columna+4]==1);
@@ -650,7 +658,7 @@ do{
        filas = transformanumero(fila);
        
        }while(filas < 0 || filas > 10);
-}while(!isdigit(fila));
+}while(isdigit(fila)==0); // no sea  es decri sea =0cero
 
       
 
@@ -852,28 +860,17 @@ do{
    }
 
 }
-
-
-
-
-
-
-
-
 void ataque_de_la_computadora(int m[10][10], int m2[10][10], datos *d){
-//scanf=radoi
-  ///char letra, fila;
-   //int filas, columna;
+
 int fila;
 char columna; 
 char letra;   
 int h;
 //preparar semilla aleatoria
 srand(time(NULL));
-fila = rand()%10;
+fila = rand()%10;// randoms del 0 al 10
 srand(time(NULL));
-columna = 65+rand()%9;
-columna-=65;
+columna = rand()%10;
 
   
 
@@ -910,7 +907,7 @@ void portaaviones_comp(int m[10][10]){
    switch(pos_ale){
    case 0:
    srand(time(NULL));
-       filas=rand()%10;// del 0 a   
+       filas=rand()%10;// del 0 a  10  
        
        do{
           columna=rand()%6;
@@ -961,7 +958,7 @@ void acorazado_comp(int m[10][10]){
    switch(pos_ale){
    case 0:
    srand(time(NULL));
-       filas=rand()%10;// del 0 a   
+       filas=rand()%10;// del 0 a 10   
        
        	do{
           	columna=rand()%7;
@@ -1037,11 +1034,7 @@ void submarino_comp(int m[10][10]){
 	   
 	   
            do{
-           
-      		filas=rand()%8;
-      		
-           
-			
+           	filas=rand()%8;			
            }while(m[filas][columna]==1 || m[filas+1][columna]==1 || m[filas+2][columna]==1);
 	   
     for(i = 0; i < 3; i++){
@@ -1065,9 +1058,9 @@ void crucero_comp(int m[10][10]){
    
    switch(pos_ale){
    case 0:
-   srand(time(NULL));
-       filas=rand()%10;// del 0 a   
-       
+       srand(time(NULL));
+       filas=rand()%10;// del 0 a 9   
+       srand(time(NULL)) ;
        do{
           columna=rand()%8;
            
@@ -1084,7 +1077,7 @@ void crucero_comp(int m[10][10]){
     case 1:
        srand(time(NULL));
 	   columna=rand()%10;
-	   
+	   srand(time(NULL));
 	   
            do{
            
@@ -1117,7 +1110,7 @@ void destructor_comp(int m[10][10]){
        filas=rand()%10;// del 0 a   
        
        do{
-          columna=rand()%9;
+          columna=rand()%10;
            
 
        }while(m[filas][columna]==1 || m[filas][columna+1]==1);
@@ -1160,10 +1153,7 @@ void posiciona_comp(int m[10][10]){
    	
    	
    	system("cls");
-   	//Si se activa esta funcion se puede ver el tablero de la maquina
-   	/*
-	imprimetablero(m);
-	*/
+ 
 	getch();
 
 }
